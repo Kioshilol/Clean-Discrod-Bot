@@ -7,6 +7,6 @@ The template comes with a _config.yml file which can be used to configure the bo
 ```
 {
     "Token": "yourtoken",
-    "Prefix": "!"
+    "Prefix": "$"
 }
 
