@@ -9,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace SmartDiscordBot.Bot.Modules
 {
-    public class General: ModuleBase
+    public class General : ModuleBase
     {
+        public General()
+        {
+            Console.WriteLine("General Module added");
+        }
+
         [Command("ping")]
         public async Task Ping()
         {
@@ -25,7 +30,7 @@ namespace SmartDiscordBot.Bot.Modules
 
             if (user.Discriminator != 4194.ToString())
             {
-                description = "In this message you can see some information about yourself!";
+                description = $"In this message you can see some information about {user}!";
             }
             else
                 description = "Thx god";
@@ -35,7 +40,7 @@ namespace SmartDiscordBot.Bot.Modules
                 .WithDescription(description)
                 .AddField("Created at", user.CreatedAt.UtcDateTime)
                 .AddField("Joined at", (user as SocketGuildUser).JoinedAt.Value.UtcDateTime)
-                .WithColor(new Color(249, 179, 231))
+                .WithColor(Colors.Pink)
                 .WithCurrentTimestamp();
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync(embed: embed);
@@ -71,7 +76,7 @@ namespace SmartDiscordBot.Bot.Modules
                 .AddField("Offline users", (Context.Guild as SocketGuild).Users.Where(u => u.Status == UserStatus.Offline).Count(), true)
                 .AddField("Users in invisibility", (Context.Guild as SocketGuild).Users.Where(u => u.Status != UserStatus.Invisible).Count())
                 .AddField("Member count", (Context.Guild as SocketGuild).MemberCount)
-                .WithColor(new Color(249, 179, 231))
+                .WithColor(Colors.Pink)
                 .WithCurrentTimestamp();
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync(embed: embed);

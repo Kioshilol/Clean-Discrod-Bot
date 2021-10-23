@@ -3,6 +3,8 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartDiscordBot.Bot.Services;
+using SmartDiscordBot.Services;
+using SmartDiscordBot.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -57,7 +59,8 @@ namespace SmartDiscordBot
                 }))
                 .AddSingleton<CommandHandler>()
                 .AddSingleton<StartupService>()
-                .AddSingleton(Configuration);
+                .AddSingleton(Configuration)
+                .AddSingleton<IApiController, ApiController>();
         }
     }
 }

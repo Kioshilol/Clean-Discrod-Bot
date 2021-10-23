@@ -182,3 +182,4 @@ FakesAssemblies/
 *.userprefs
 
 .DS_Store
+SmartDiscordBot/SmartDiscordBot/_config.yml
