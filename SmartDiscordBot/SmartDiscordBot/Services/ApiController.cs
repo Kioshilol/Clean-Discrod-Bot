@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartDiscordBot.Bot.Modules;
 using SmartDiscordBot.Models;
 using SmartDiscordBot.Services.Interfaces;
 using System.Threading.Tasks;

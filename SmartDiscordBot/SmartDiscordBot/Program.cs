@@ -7,8 +7,8 @@ namespace SmartDiscordBot
         static void Main(string[] args)
         {
             Console.WriteLine("Hello bro!");
-            var startup = new Startup();
-            startup.RunAsync().GetAwaiter().GetResult();
+            var startupService = SetupStartupService.Setup();
+            startupService.RunAsync().GetAwaiter().GetResult();
         }
     }
 }

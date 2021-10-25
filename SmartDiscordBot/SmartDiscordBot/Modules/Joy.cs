@@ -1,16 +1,12 @@
 ﻿using Discord;
 using Discord.Commands;
-using Newtonsoft.Json.Linq;
 using SmartDiscordBot.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartDiscordBot.Bot.Modules
+namespace SmartDiscordBot.Modules
 {
-    public class Joy : ModuleBase
+    public class Joy : ModuleBase<SocketCommandContext>
     {
         private IApiController _apiController;
         public Joy(IApiController apiController)

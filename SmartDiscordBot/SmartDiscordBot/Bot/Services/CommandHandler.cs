@@ -1,58 +1,42 @@
-﻿using Discord.Commands;
+﻿using Discord.Addons.Hosting;
+using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SmartDiscordBot.Bot.Services
 {
-    public class CommandHandler
+    public class CommandHandler : DiscordClientService
     {
-        public static IServiceProvider _provider;
-        public static DiscordSocketClient _discord;
-        public static CommandService _commands;
-        public static IConfiguration _configuration;
+        public readonly IServiceProvider _provider;
+        public readonly IConfiguration _configuration;
+        public readonly CommandService _commandService;
 
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration configuration, IServiceProvider provider)
+        public CommandHandler(IServiceProvider provider, IConfiguration configuration, ILogger<CommandHandler> logger, DiscordSocketClient client, CommandService commands) : base(client, logger)
         {
             _provider = provider;
-            _discord = discord;
-            _commands = commands;
             _configuration = configuration;
-
-            _discord.Ready += OnReady;
-            _discord.MessageReceived += OnMessageReceived;
+            _commandService = commands;
         }
 
-        private async Task OnMessageReceived(SocketMessage arg)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var msg = arg as SocketUserMessage;
-
-            if (msg.Author.IsBot)
-                return;
-
-            var context = new SocketCommandContext(_discord, msg);
-            int prefixPosition = 0;
-
-            if(msg.HasStringPrefix(_configuration["prefix"], ref prefixPosition) || msg.HasMentionPrefix(_discord.CurrentUser, ref prefixPosition))
-            {
-                var result = await _commands.ExecuteAsync(context, prefixPosition, _provider);
-
-                if (!result.IsSuccess)
-                {
-                    var reason = result.Error;
-                    await context.Channel.SendMessageAsync($"The following error occured: \n {reason}");
-                    Console.WriteLine(reason);
-                }
-            }
-
+            Client.MessageReceived += OnMessageReceived;
+            _commandService.CommandExecuted += OnCommandExecute;
+            await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
 
-        private Task OnReady()
+        private Task OnCommandExecute(Discord.Optional<CommandInfo> arg1, ICommandContext arg2, IResult arg3)
         {
-            Console.WriteLine($"Connected as {_discord.CurrentUser.Username}#{_discord.CurrentUser.Discriminator}");
+            return Task.CompletedTask;
+        }
+
+        private Task OnMessageReceived(SocketMessage arg)
+        {
             return Task.CompletedTask;
         }
     }

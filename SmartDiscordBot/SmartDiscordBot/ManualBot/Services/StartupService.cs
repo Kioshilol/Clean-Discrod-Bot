@@ -2,16 +2,14 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartDiscordBot.Bot.Services
 {
     public class StartupService
     {
-        public static IServiceProvider _provider;
+        private readonly IServiceProvider _provider;
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
         private readonly IConfiguration _configuration;
@@ -38,6 +36,5 @@ namespace SmartDiscordBot.Bot.Services
             await _discord.StartAsync();
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
         }
-
     }
 }

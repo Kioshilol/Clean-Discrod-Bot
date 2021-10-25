@@ -2,14 +2,13 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartDiscordBot.Bot.Modules
+namespace SmartDiscordBot.Modules
 {
-    public class General : ModuleBase
+    public class General : ModuleBase<SocketCommandContext>
     {
         public General()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartDiscordBot.Bot.Modules
+namespace SmartDiscordBot.Models
 {
     public class OperationResult<T>
     {
