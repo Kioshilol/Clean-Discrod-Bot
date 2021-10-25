@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using SmartDiscordBot.Bot.Services;
 using SmartDiscordBot.Helpers;
 using SmartDiscordBot.Interfaces;
+using SmartDiscordBot.Services;
+using SmartDiscordBot.Services.Interfaces;
 using System.Threading.Tasks;
 
 namespace SmartDiscordBot.Bot
@@ -19,7 +21,7 @@ namespace SmartDiscordBot.Bot
         {
             var targetDirectory = DirectoryHelper.GetFileDirectory(Constants.BotConfig);
 
-            var builder = new HostBuilder()
+            var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration(c =>
                 {
                     var configuration = new ConfigurationBuilder()
@@ -56,8 +58,11 @@ namespace SmartDiscordBot.Bot
                 .ConfigureServices((context, services) =>
                 {
                     services.AddHostedService<CommandHandler>();
+                    services.AddSingleton<IApiController, ApiController>();
                 })
                 .UseConsoleLifetime();
+
+            await host.RunConsoleAsync();
         }
     }
 }

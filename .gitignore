@@ -183,3 +183,4 @@ FakesAssemblies/
 
 .DS_Store
 SmartDiscordBot/SmartDiscordBot/_config.yml
+SmartDiscordBot/SmartDiscordBot/Bot/botsettings.json
